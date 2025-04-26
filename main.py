@@ -3,9 +3,11 @@
 from flask import Flask, request, jsonify
 import tensorflow as tf
 import numpy as np
+import logging
 
 app = Flask(__name__)
 model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
+logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -18,6 +20,7 @@ def predict():
     try:
         input_np = np.array(input_array, dtype=np.float32)
         prediction = model.predict(input_np)
+        logging.debug(prediction)
         return jsonify({'prediction': prediction.tolist()})
     except Exception as e:
         return jsonify({'error': str(e)}), 500

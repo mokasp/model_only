@@ -2,3 +2,4 @@ numpy
 tensorflow
 Flask
 gunicorn
+logging
